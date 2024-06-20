@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Student {
+  createdAt       DateTime         @default(now())
+  fullName        String?
+  id              String           @id @default(cuid())
+  level           Int
+  matricNumber    String           @unique
+  roomAllocations RoomAllocation[]
+  roomNumber      Int?
+  updatedAt       DateTime         @updatedAt
+}
+
+model Admin {
+  adminEmail          String?
+  adminEmployeeId     String?
+  adminName           String?
+  adminPassword       String?
+  adminUniqueEmail    String?
+  adminUniqueName     String?
+  adminUniquePassword String?
+  createdAt           DateTime @default(now())
+  email               String?
+  employeeId          String?  @unique
+  fullName            String?
+  id                  String   @id @default(cuid())
+  name                String?
+  password            String?
+  updatedAt           DateTime @updatedAt
+}
+
+model Room {
+  createdAt       DateTime         @default(now())
+  id              String           @id @default(cuid())
+  roomAllocations RoomAllocation[]
+  updatedAt       DateTime         @updatedAt
+}
+
+model Complaint {
+  complaint String
+  createdAt DateTime               @default(now())
+  id        String                 @id @default(cuid())
+  typeField EnumComplaintTypeField
+  updatedAt DateTime               @updatedAt
+}
+
+model RoomAllocation {
+  adminApproval    String?
+  allocationDate   DateTime?
+  allocationStatus EnumRoomAllocationAllocationStatus?
+  createdAt        DateTime                            @default(now())
+  id               String                              @id @default(cuid())
+  room             Room?                               @relation(fields: [roomId], references: [id])
+  roomId           String?
+  student          Student?                            @relation(fields: [studentId], references: [id])
+  studentId        String?
+  updatedAt        DateTime                            @updatedAt
+}
+
+enum EnumComplaintTypeField {
+  Electrical
+  Plumbing
+  Furniture
+}
+
+enum EnumRoomAllocationAllocationStatus {
+  Option1
+}
