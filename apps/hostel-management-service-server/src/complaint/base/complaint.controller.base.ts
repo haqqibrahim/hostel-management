@@ -31,11 +31,26 @@ export class ComplaintControllerBase {
     @common.Body() data: ComplaintCreateInput
   ): Promise<Complaint> {
     return await this.service.createComplaint({
-      data: data,
+      data: {
+        ...data,
+
+        room: data.room
+          ? {
+              connect: data.room,
+            }
+          : undefined,
+      },
       select: {
         complaint: true,
         createdAt: true,
         id: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         typeField: true,
         updatedAt: true,
       },
@@ -53,6 +68,13 @@ export class ComplaintControllerBase {
         complaint: true,
         createdAt: true,
         id: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         typeField: true,
         updatedAt: true,
       },
@@ -71,6 +93,13 @@ export class ComplaintControllerBase {
         complaint: true,
         createdAt: true,
         id: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         typeField: true,
         updatedAt: true,
       },
@@ -93,11 +122,26 @@ export class ComplaintControllerBase {
     try {
       return await this.service.updateComplaint({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          room: data.room
+            ? {
+                connect: data.room,
+              }
+            : undefined,
+        },
         select: {
           complaint: true,
           createdAt: true,
           id: true,
+
+          room: {
+            select: {
+              id: true,
+            },
+          },
+
           typeField: true,
           updatedAt: true,
         },
@@ -125,6 +169,13 @@ export class ComplaintControllerBase {
           complaint: true,
           createdAt: true,
           id: true,
+
+          room: {
+            select: {
+              id: true,
+            },
+          },
+
           typeField: true,
           updatedAt: true,
         },

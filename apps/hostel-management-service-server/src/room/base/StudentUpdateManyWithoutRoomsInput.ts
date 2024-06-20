@@ -10,54 +10,37 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
 
 @InputType()
-class AdminUpdateInput {
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
+class StudentUpdateManyWithoutRoomsInput {
+  @Field(() => [StudentWhereUniqueInput], {
     nullable: true,
   })
-  adminEmployeeId?: string | null;
+  @ApiProperty({
+    required: false,
+    type: () => [StudentWhereUniqueInput],
+  })
+  connect?: Array<StudentWhereUniqueInput>;
 
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
+  @Field(() => [StudentWhereUniqueInput], {
     nullable: true,
   })
-  adminUniqueEmail?: string | null;
+  @ApiProperty({
+    required: false,
+    type: () => [StudentWhereUniqueInput],
+  })
+  disconnect?: Array<StudentWhereUniqueInput>;
 
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
+  @Field(() => [StudentWhereUniqueInput], {
     nullable: true,
   })
-  adminUniqueName?: string | null;
-
   @ApiProperty({
     required: false,
-    type: String,
+    type: () => [StudentWhereUniqueInput],
   })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  adminUniquePassword?: string | null;
+  set?: Array<StudentWhereUniqueInput>;
 }
 
-export { AdminUpdateInput as AdminUpdateInput };
+export { StudentUpdateManyWithoutRoomsInput as StudentUpdateManyWithoutRoomsInput };

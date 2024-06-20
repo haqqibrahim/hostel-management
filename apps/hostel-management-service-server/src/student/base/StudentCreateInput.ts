@@ -11,12 +11,33 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsInt, ValidateNested } from "class-validator";
-import { RoomAllocationCreateNestedManyWithoutStudentsInput } from "./RoomAllocationCreateNestedManyWithoutStudentsInput";
+import { ComplaintCreateNestedManyWithoutStudentsInput } from "./ComplaintCreateNestedManyWithoutStudentsInput";
+import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { RoomWhereUniqueInput } from "../../room/base/RoomWhereUniqueInput";
 
 @InputType()
 class StudentCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => ComplaintCreateNestedManyWithoutStudentsInput,
+  })
+  @ValidateNested()
+  @Type(() => ComplaintCreateNestedManyWithoutStudentsInput)
+  @IsOptional()
+  @Field(() => ComplaintCreateNestedManyWithoutStudentsInput, {
+    nullable: true,
+  })
+  complaints?: ComplaintCreateNestedManyWithoutStudentsInput;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  email!: string;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -29,12 +50,15 @@ class StudentCreateInput {
   fullName?: string | null;
 
   @ApiProperty({
-    required: true,
-    type: Number,
+    required: false,
+    type: String,
   })
-  @IsInt()
-  @Field(() => Number)
-  level!: number;
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  level?: string | null;
 
   @ApiProperty({
     required: true,
@@ -46,26 +70,15 @@ class StudentCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => RoomAllocationCreateNestedManyWithoutStudentsInput,
+    type: () => RoomWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => RoomAllocationCreateNestedManyWithoutStudentsInput)
+  @Type(() => RoomWhereUniqueInput)
   @IsOptional()
-  @Field(() => RoomAllocationCreateNestedManyWithoutStudentsInput, {
+  @Field(() => RoomWhereUniqueInput, {
     nullable: true,
   })
-  roomAllocations?: RoomAllocationCreateNestedManyWithoutStudentsInput;
-
-  @ApiProperty({
-    required: false,
-    type: Number,
-  })
-  @IsInt()
-  @IsOptional()
-  @Field(() => Number, {
-    nullable: true,
-  })
-  roomNumber?: number | null;
+  room?: RoomWhereUniqueInput | null;
 }
 
 export { StudentCreateInput as StudentCreateInput };

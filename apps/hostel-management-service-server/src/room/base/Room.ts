@@ -11,9 +11,10 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, ValidateNested, IsOptional } from "class-validator";
+import { IsDate, IsString, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { RoomAllocation } from "../../roomAllocation/base/RoomAllocation";
+import { Student } from "../../student/base/Student";
 
 @ObjectType()
 class Room {
@@ -35,12 +36,32 @@ class Room {
 
   @ApiProperty({
     required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  numberOfStudents!: string | null;
+
+  @ApiProperty({
+    required: false,
     type: () => [RoomAllocation],
   })
   @ValidateNested()
   @Type(() => RoomAllocation)
   @IsOptional()
   roomAllocations?: Array<RoomAllocation>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Student],
+  })
+  @ValidateNested()
+  @Type(() => Student)
+  @IsOptional()
+  Students?: Array<Student>;
 
   @ApiProperty({
     required: true,

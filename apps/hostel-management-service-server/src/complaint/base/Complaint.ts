@@ -11,8 +11,15 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, IsEnum } from "class-validator";
+import {
+  IsString,
+  IsDate,
+  ValidateNested,
+  IsOptional,
+  IsEnum,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { Student } from "../../student/base/Student";
 import { EnumComplaintTypeField } from "./EnumComplaintTypeField";
 
 @ObjectType()
@@ -40,6 +47,15 @@ class Complaint {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => Student,
+  })
+  @ValidateNested()
+  @Type(() => Student)
+  @IsOptional()
+  room?: Student | null;
 
   @ApiProperty({
     required: true,

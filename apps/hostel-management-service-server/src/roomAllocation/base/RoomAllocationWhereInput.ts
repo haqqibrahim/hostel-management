@@ -18,7 +18,6 @@ import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { EnumRoomAllocationAllocationStatus } from "./EnumRoomAllocationAllocationStatus";
 import { StringFilter } from "../../util/StringFilter";
 import { RoomWhereUniqueInput } from "../../room/base/RoomWhereUniqueInput";
-import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 
 @InputType()
 class RoomAllocationWhereInput {
@@ -80,15 +79,14 @@ class RoomAllocationWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => StudentWhereUniqueInput,
+    type: StringFilter,
   })
-  @ValidateNested()
-  @Type(() => StudentWhereUniqueInput)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => StudentWhereUniqueInput, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  student?: StudentWhereUniqueInput;
+  studentEmail?: StringFilter;
 }
 
 export { RoomAllocationWhereInput as RoomAllocationWhereInput };

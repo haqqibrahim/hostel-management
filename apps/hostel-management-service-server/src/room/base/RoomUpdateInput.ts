@@ -11,12 +11,24 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsOptional, ValidateNested } from "class-validator";
 import { RoomAllocationUpdateManyWithoutRoomsInput } from "./RoomAllocationUpdateManyWithoutRoomsInput";
-import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { StudentUpdateManyWithoutRoomsInput } from "./StudentUpdateManyWithoutRoomsInput";
 
 @InputType()
 class RoomUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  numberOfStudents?: string | null;
+
   @ApiProperty({
     required: false,
     type: () => RoomAllocationUpdateManyWithoutRoomsInput,
@@ -28,6 +40,18 @@ class RoomUpdateInput {
     nullable: true,
   })
   roomAllocations?: RoomAllocationUpdateManyWithoutRoomsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => StudentUpdateManyWithoutRoomsInput,
+  })
+  @ValidateNested()
+  @Type(() => StudentUpdateManyWithoutRoomsInput)
+  @IsOptional()
+  @Field(() => StudentUpdateManyWithoutRoomsInput, {
+    nullable: true,
+  })
+  Students?: StudentUpdateManyWithoutRoomsInput;
 }
 
 export { RoomUpdateInput as RoomUpdateInput };

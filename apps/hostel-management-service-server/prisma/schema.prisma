@@ -7,48 +7,33 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Student {
-  createdAt       DateTime         @default(now())
-  fullName        String?
-  id              String           @id @default(cuid())
-  level           Int
-  matricNumber    String           @unique
-  roomAllocations RoomAllocation[]
-  roomNumber      Int?
-  updatedAt       DateTime         @updatedAt
-}
-
 model Admin {
-  adminEmail          String?
   adminEmployeeId     String?
-  adminName           String?
-  adminPassword       String?
   adminUniqueEmail    String?
   adminUniqueName     String?
   adminUniquePassword String?
   createdAt           DateTime @default(now())
-  email               String?
-  employeeId          String?  @unique
-  fullName            String?
   id                  String   @id @default(cuid())
-  name                String?
-  password            String?
   updatedAt           DateTime @updatedAt
-}
-
-model Room {
-  createdAt       DateTime         @default(now())
-  id              String           @id @default(cuid())
-  roomAllocations RoomAllocation[]
-  updatedAt       DateTime         @updatedAt
 }
 
 model Complaint {
   complaint String
   createdAt DateTime               @default(now())
   id        String                 @id @default(cuid())
+  room      Student?               @relation(fields: [roomId], references: [id])
+  roomId    String?
   typeField EnumComplaintTypeField
   updatedAt DateTime               @updatedAt
+}
+
+model Room {
+  createdAt        DateTime         @default(now())
+  id               String           @id @default(cuid())
+  numberOfStudents String?
+  roomAllocations  RoomAllocation[]
+  Students         Student[]
+  updatedAt        DateTime         @updatedAt
 }
 
 model RoomAllocation {
@@ -59,9 +44,21 @@ model RoomAllocation {
   id               String                              @id @default(cuid())
   room             Room?                               @relation(fields: [roomId], references: [id])
   roomId           String?
-  student          Student?                            @relation(fields: [studentId], references: [id])
-  studentId        String?
+  studentEmail     String
   updatedAt        DateTime                            @updatedAt
+}
+
+model Student {
+  complaints   Complaint[]
+  createdAt    DateTime    @default(now())
+  email        String
+  fullName     String?
+  id           String      @id @default(cuid())
+  level        String?
+  matricNumber String
+  room         Room?       @relation(fields: [roomId], references: [id])
+  roomId       String?
+  updatedAt    DateTime    @updatedAt
 }
 
 enum EnumComplaintTypeField {

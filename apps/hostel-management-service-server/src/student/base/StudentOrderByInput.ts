@@ -39,6 +39,17 @@ class StudentOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  email?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   fullName?: SortOrder;
 
   @ApiProperty({
@@ -83,7 +94,7 @@ class StudentOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  roomNumber?: SortOrder;
+  roomId?: SortOrder;
 
   @ApiProperty({
     required: false,

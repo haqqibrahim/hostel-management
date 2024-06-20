@@ -14,7 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { RoomAllocationListRelationFilter } from "../../roomAllocation/base/RoomAllocationListRelationFilter";
+import { StudentListRelationFilter } from "../../student/base/StudentListRelationFilter";
 
 @InputType()
 class RoomWhereInput {
@@ -31,6 +33,17 @@ class RoomWhereInput {
 
   @ApiProperty({
     required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  numberOfStudents?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
     type: () => RoomAllocationListRelationFilter,
   })
   @ValidateNested()
@@ -40,6 +53,18 @@ class RoomWhereInput {
     nullable: true,
   })
   roomAllocations?: RoomAllocationListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => StudentListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => StudentListRelationFilter)
+  @IsOptional()
+  @Field(() => StudentListRelationFilter, {
+    nullable: true,
+  })
+  Students?: StudentListRelationFilter;
 }
 
 export { RoomWhereInput as RoomWhereInput };

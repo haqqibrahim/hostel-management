@@ -22,9 +22,9 @@ import { Student } from "./Student";
 import { StudentFindManyArgs } from "./StudentFindManyArgs";
 import { StudentWhereUniqueInput } from "./StudentWhereUniqueInput";
 import { StudentUpdateInput } from "./StudentUpdateInput";
-import { RoomAllocationFindManyArgs } from "../../roomAllocation/base/RoomAllocationFindManyArgs";
-import { RoomAllocation } from "../../roomAllocation/base/RoomAllocation";
-import { RoomAllocationWhereUniqueInput } from "../../roomAllocation/base/RoomAllocationWhereUniqueInput";
+import { ComplaintFindManyArgs } from "../../complaint/base/ComplaintFindManyArgs";
+import { Complaint } from "../../complaint/base/Complaint";
+import { ComplaintWhereUniqueInput } from "../../complaint/base/ComplaintWhereUniqueInput";
 
 export class StudentControllerBase {
   constructor(protected readonly service: StudentService) {}
@@ -34,14 +34,29 @@ export class StudentControllerBase {
     @common.Body() data: StudentCreateInput
   ): Promise<Student> {
     return await this.service.createStudent({
-      data: data,
+      data: {
+        ...data,
+
+        room: data.room
+          ? {
+              connect: data.room,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
+        email: true,
         fullName: true,
         id: true,
         level: true,
         matricNumber: true,
-        roomNumber: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -56,11 +71,18 @@ export class StudentControllerBase {
       ...args,
       select: {
         createdAt: true,
+        email: true,
         fullName: true,
         id: true,
         level: true,
         matricNumber: true,
-        roomNumber: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -76,11 +98,18 @@ export class StudentControllerBase {
       where: params,
       select: {
         createdAt: true,
+        email: true,
         fullName: true,
         id: true,
         level: true,
         matricNumber: true,
-        roomNumber: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
         updatedAt: true,
       },
     });
@@ -102,14 +131,29 @@ export class StudentControllerBase {
     try {
       return await this.service.updateStudent({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          room: data.room
+            ? {
+                connect: data.room,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
+          email: true,
           fullName: true,
           id: true,
           level: true,
           matricNumber: true,
-          roomNumber: true,
+
+          room: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -134,11 +178,18 @@ export class StudentControllerBase {
         where: params,
         select: {
           createdAt: true,
+          email: true,
           fullName: true,
           id: true,
           level: true,
           matricNumber: true,
-          roomNumber: true,
+
+          room: {
+            select: {
+              id: true,
+            },
+          },
+
           updatedAt: true,
         },
       });
@@ -152,19 +203,17 @@ export class StudentControllerBase {
     }
   }
 
-  @common.Get("/:id/roomAllocations")
-  @ApiNestedQuery(RoomAllocationFindManyArgs)
-  async findRoomAllocations(
+  @common.Get("/:id/complaints")
+  @ApiNestedQuery(ComplaintFindManyArgs)
+  async findComplaints(
     @common.Req() request: Request,
     @common.Param() params: StudentWhereUniqueInput
-  ): Promise<RoomAllocation[]> {
-    const query = plainToClass(RoomAllocationFindManyArgs, request.query);
-    const results = await this.service.findRoomAllocations(params.id, {
+  ): Promise<Complaint[]> {
+    const query = plainToClass(ComplaintFindManyArgs, request.query);
+    const results = await this.service.findComplaints(params.id, {
       ...query,
       select: {
-        adminApproval: true,
-        allocationDate: true,
-        allocationStatus: true,
+        complaint: true,
         createdAt: true,
         id: true,
 
@@ -174,12 +223,7 @@ export class StudentControllerBase {
           },
         },
 
-        student: {
-          select: {
-            id: true,
-          },
-        },
-
+        typeField: true,
         updatedAt: true,
       },
     });
@@ -191,13 +235,13 @@ export class StudentControllerBase {
     return results;
   }
 
-  @common.Post("/:id/roomAllocations")
-  async connectRoomAllocations(
+  @common.Post("/:id/complaints")
+  async connectComplaints(
     @common.Param() params: StudentWhereUniqueInput,
-    @common.Body() body: RoomAllocationWhereUniqueInput[]
+    @common.Body() body: ComplaintWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      roomAllocations: {
+      complaints: {
         connect: body,
       },
     };
@@ -208,13 +252,13 @@ export class StudentControllerBase {
     });
   }
 
-  @common.Patch("/:id/roomAllocations")
-  async updateRoomAllocations(
+  @common.Patch("/:id/complaints")
+  async updateComplaints(
     @common.Param() params: StudentWhereUniqueInput,
-    @common.Body() body: RoomAllocationWhereUniqueInput[]
+    @common.Body() body: ComplaintWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      roomAllocations: {
+      complaints: {
         set: body,
       },
     };
@@ -225,13 +269,13 @@ export class StudentControllerBase {
     });
   }
 
-  @common.Delete("/:id/roomAllocations")
-  async disconnectRoomAllocations(
+  @common.Delete("/:id/complaints")
+  async disconnectComplaints(
     @common.Param() params: StudentWhereUniqueInput,
-    @common.Body() body: RoomAllocationWhereUniqueInput[]
+    @common.Body() body: ComplaintWhereUniqueInput[]
   ): Promise<void> {
     const data = {
-      roomAllocations: {
+      complaints: {
         disconnect: body,
       },
     };

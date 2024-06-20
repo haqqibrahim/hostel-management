@@ -21,7 +21,6 @@ import {
 import { Type } from "class-transformer";
 import { EnumRoomAllocationAllocationStatus } from "./EnumRoomAllocationAllocationStatus";
 import { RoomWhereUniqueInput } from "../../room/base/RoomWhereUniqueInput";
-import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 
 @InputType()
 class RoomAllocationUpdateInput {
@@ -72,15 +71,14 @@ class RoomAllocationUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => StudentWhereUniqueInput,
+    type: String,
   })
-  @ValidateNested()
-  @Type(() => StudentWhereUniqueInput)
+  @IsString()
   @IsOptional()
-  @Field(() => StudentWhereUniqueInput, {
+  @Field(() => String, {
     nullable: true,
   })
-  student?: StudentWhereUniqueInput | null;
+  studentEmail?: string;
 }
 
 export { RoomAllocationUpdateInput as RoomAllocationUpdateInput };

@@ -10,37 +10,37 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
-import { RoomAllocationWhereUniqueInput } from "../../roomAllocation/base/RoomAllocationWhereUniqueInput";
+import { ComplaintWhereUniqueInput } from "../../complaint/base/ComplaintWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
 
 @InputType()
-class RoomAllocationUpdateManyWithoutStudentsInput {
-  @Field(() => [RoomAllocationWhereUniqueInput], {
+class ComplaintUpdateManyWithoutStudentsInput {
+  @Field(() => [ComplaintWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [RoomAllocationWhereUniqueInput],
+    type: () => [ComplaintWhereUniqueInput],
   })
-  connect?: Array<RoomAllocationWhereUniqueInput>;
+  connect?: Array<ComplaintWhereUniqueInput>;
 
-  @Field(() => [RoomAllocationWhereUniqueInput], {
+  @Field(() => [ComplaintWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [RoomAllocationWhereUniqueInput],
+    type: () => [ComplaintWhereUniqueInput],
   })
-  disconnect?: Array<RoomAllocationWhereUniqueInput>;
+  disconnect?: Array<ComplaintWhereUniqueInput>;
 
-  @Field(() => [RoomAllocationWhereUniqueInput], {
+  @Field(() => [ComplaintWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [RoomAllocationWhereUniqueInput],
+    type: () => [ComplaintWhereUniqueInput],
   })
-  set?: Array<RoomAllocationWhereUniqueInput>;
+  set?: Array<ComplaintWhereUniqueInput>;
 }
 
-export { RoomAllocationUpdateManyWithoutStudentsInput as RoomAllocationUpdateManyWithoutStudentsInput };
+export { ComplaintUpdateManyWithoutStudentsInput as ComplaintUpdateManyWithoutStudentsInput };

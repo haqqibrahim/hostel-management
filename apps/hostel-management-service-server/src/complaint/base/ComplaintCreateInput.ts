@@ -11,7 +11,9 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsEnum } from "class-validator";
+import { IsString, ValidateNested, IsOptional, IsEnum } from "class-validator";
+import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
+import { Type } from "class-transformer";
 import { EnumComplaintTypeField } from "./EnumComplaintTypeField";
 
 @InputType()
@@ -23,6 +25,18 @@ class ComplaintCreateInput {
   @IsString()
   @Field(() => String)
   complaint!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => StudentWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => StudentWhereUniqueInput)
+  @IsOptional()
+  @Field(() => StudentWhereUniqueInput, {
+    nullable: true,
+  })
+  room?: StudentWhereUniqueInput | null;
 
   @ApiProperty({
     required: true,

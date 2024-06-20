@@ -21,7 +21,6 @@ import {
 import { Type } from "class-transformer";
 import { EnumRoomAllocationAllocationStatus } from "./EnumRoomAllocationAllocationStatus";
 import { Room } from "../../room/base/Room";
-import { Student } from "../../student/base/Student";
 
 @ObjectType()
 class RoomAllocation {
@@ -84,13 +83,12 @@ class RoomAllocation {
   room?: Room | null;
 
   @ApiProperty({
-    required: false,
-    type: () => Student,
+    required: true,
+    type: String,
   })
-  @ValidateNested()
-  @Type(() => Student)
-  @IsOptional()
-  student?: Student | null;
+  @IsString()
+  @Field(() => String)
+  studentEmail!: string;
 
   @ApiProperty({
     required: true,

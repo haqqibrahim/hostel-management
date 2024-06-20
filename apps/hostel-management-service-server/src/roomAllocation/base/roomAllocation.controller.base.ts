@@ -39,12 +39,6 @@ export class RoomAllocationControllerBase {
               connect: data.room,
             }
           : undefined,
-
-        student: data.student
-          ? {
-              connect: data.student,
-            }
-          : undefined,
       },
       select: {
         adminApproval: true,
@@ -59,12 +53,7 @@ export class RoomAllocationControllerBase {
           },
         },
 
-        student: {
-          select: {
-            id: true,
-          },
-        },
-
+        studentEmail: true,
         updatedAt: true,
       },
     });
@@ -92,12 +81,7 @@ export class RoomAllocationControllerBase {
           },
         },
 
-        student: {
-          select: {
-            id: true,
-          },
-        },
-
+        studentEmail: true,
         updatedAt: true,
       },
     });
@@ -124,12 +108,7 @@ export class RoomAllocationControllerBase {
           },
         },
 
-        student: {
-          select: {
-            id: true,
-          },
-        },
-
+        studentEmail: true,
         updatedAt: true,
       },
     });
@@ -159,12 +138,6 @@ export class RoomAllocationControllerBase {
                 connect: data.room,
               }
             : undefined,
-
-          student: data.student
-            ? {
-                connect: data.student,
-              }
-            : undefined,
         },
         select: {
           adminApproval: true,
@@ -179,12 +152,7 @@ export class RoomAllocationControllerBase {
             },
           },
 
-          student: {
-            select: {
-              id: true,
-            },
-          },
-
+          studentEmail: true,
           updatedAt: true,
         },
       });
@@ -220,12 +188,7 @@ export class RoomAllocationControllerBase {
             },
           },
 
-          student: {
-            select: {
-              id: true,
-            },
-          },
-
+          studentEmail: true,
           updatedAt: true,
         },
       });

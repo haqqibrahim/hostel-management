@@ -94,7 +94,7 @@ class RoomAllocationOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  studentId?: SortOrder;
+  studentEmail?: SortOrder;
 
   @ApiProperty({
     required: false,

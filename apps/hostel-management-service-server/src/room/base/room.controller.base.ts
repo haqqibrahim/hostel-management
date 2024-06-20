@@ -25,6 +25,9 @@ import { RoomUpdateInput } from "./RoomUpdateInput";
 import { RoomAllocationFindManyArgs } from "../../roomAllocation/base/RoomAllocationFindManyArgs";
 import { RoomAllocation } from "../../roomAllocation/base/RoomAllocation";
 import { RoomAllocationWhereUniqueInput } from "../../roomAllocation/base/RoomAllocationWhereUniqueInput";
+import { StudentFindManyArgs } from "../../student/base/StudentFindManyArgs";
+import { Student } from "../../student/base/Student";
+import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 
 export class RoomControllerBase {
   constructor(protected readonly service: RoomService) {}
@@ -36,6 +39,7 @@ export class RoomControllerBase {
       select: {
         createdAt: true,
         id: true,
+        numberOfStudents: true,
         updatedAt: true,
       },
     });
@@ -51,6 +55,7 @@ export class RoomControllerBase {
       select: {
         createdAt: true,
         id: true,
+        numberOfStudents: true,
         updatedAt: true,
       },
     });
@@ -67,6 +72,7 @@ export class RoomControllerBase {
       select: {
         createdAt: true,
         id: true,
+        numberOfStudents: true,
         updatedAt: true,
       },
     });
@@ -92,6 +98,7 @@ export class RoomControllerBase {
         select: {
           createdAt: true,
           id: true,
+          numberOfStudents: true,
           updatedAt: true,
         },
       });
@@ -117,6 +124,7 @@ export class RoomControllerBase {
         select: {
           createdAt: true,
           id: true,
+          numberOfStudents: true,
           updatedAt: true,
         },
       });
@@ -152,12 +160,7 @@ export class RoomControllerBase {
           },
         },
 
-        student: {
-          select: {
-            id: true,
-          },
-        },
-
+        studentEmail: true,
         updatedAt: true,
       },
     });
@@ -210,6 +213,91 @@ export class RoomControllerBase {
   ): Promise<void> {
     const data = {
       roomAllocations: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateRoom({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/Students")
+  @ApiNestedQuery(StudentFindManyArgs)
+  async findStudents(
+    @common.Req() request: Request,
+    @common.Param() params: RoomWhereUniqueInput
+  ): Promise<Student[]> {
+    const query = plainToClass(StudentFindManyArgs, request.query);
+    const results = await this.service.findStudents(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        email: true,
+        fullName: true,
+        id: true,
+        level: true,
+        matricNumber: true,
+
+        room: {
+          select: {
+            id: true,
+          },
+        },
+
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/Students")
+  async connectStudents(
+    @common.Param() params: RoomWhereUniqueInput,
+    @common.Body() body: StudentWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Students: {
+        connect: body,
+      },
+    };
+    await this.service.updateRoom({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/Students")
+  async updateStudents(
+    @common.Param() params: RoomWhereUniqueInput,
+    @common.Body() body: StudentWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Students: {
+        set: body,
+      },
+    };
+    await this.service.updateRoom({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/Students")
+  async disconnectStudents(
+    @common.Param() params: RoomWhereUniqueInput,
+    @common.Body() body: StudentWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Students: {
         disconnect: body,
       },
     };

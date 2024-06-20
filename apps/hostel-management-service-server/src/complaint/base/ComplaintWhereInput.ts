@@ -13,7 +13,8 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional, IsEnum } from "class-validator";
+import { IsOptional, ValidateNested, IsEnum } from "class-validator";
+import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 import { EnumComplaintTypeField } from "./EnumComplaintTypeField";
 
 @InputType()
@@ -39,6 +40,18 @@ class ComplaintWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => StudentWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => StudentWhereUniqueInput)
+  @IsOptional()
+  @Field(() => StudentWhereUniqueInput, {
+    nullable: true,
+  })
+  room?: StudentWhereUniqueInput;
 
   @ApiProperty({
     required: false,

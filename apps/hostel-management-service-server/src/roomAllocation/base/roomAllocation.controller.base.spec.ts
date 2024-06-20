@@ -22,6 +22,7 @@ const CREATE_INPUT = {
   allocationDate: new Date(),
   createdAt: new Date(),
   id: "exampleId",
+  studentEmail: "exampleStudentEmail",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
@@ -29,6 +30,7 @@ const CREATE_RESULT = {
   allocationDate: new Date(),
   createdAt: new Date(),
   id: "exampleId",
+  studentEmail: "exampleStudentEmail",
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
@@ -37,6 +39,7 @@ const FIND_MANY_RESULT = [
     allocationDate: new Date(),
     createdAt: new Date(),
     id: "exampleId",
+    studentEmail: "exampleStudentEmail",
     updatedAt: new Date(),
   },
 ];
@@ -45,6 +48,7 @@ const FIND_ONE_RESULT = {
   allocationDate: new Date(),
   createdAt: new Date(),
   id: "exampleId",
+  studentEmail: "exampleStudentEmail",
   updatedAt: new Date(),
 };
 

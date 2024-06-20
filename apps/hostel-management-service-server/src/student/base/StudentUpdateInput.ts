@@ -11,12 +11,36 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsInt, ValidateNested } from "class-validator";
-import { RoomAllocationUpdateManyWithoutStudentsInput } from "./RoomAllocationUpdateManyWithoutStudentsInput";
+import { ComplaintUpdateManyWithoutStudentsInput } from "./ComplaintUpdateManyWithoutStudentsInput";
+import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { RoomWhereUniqueInput } from "../../room/base/RoomWhereUniqueInput";
 
 @InputType()
 class StudentUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => ComplaintUpdateManyWithoutStudentsInput,
+  })
+  @ValidateNested()
+  @Type(() => ComplaintUpdateManyWithoutStudentsInput)
+  @IsOptional()
+  @Field(() => ComplaintUpdateManyWithoutStudentsInput, {
+    nullable: true,
+  })
+  complaints?: ComplaintUpdateManyWithoutStudentsInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email?: string;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -30,14 +54,14 @@ class StudentUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: Number,
+    type: String,
   })
-  @IsInt()
+  @IsString()
   @IsOptional()
-  @Field(() => Number, {
+  @Field(() => String, {
     nullable: true,
   })
-  level?: number;
+  level?: string | null;
 
   @ApiProperty({
     required: false,
@@ -52,26 +76,15 @@ class StudentUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => RoomAllocationUpdateManyWithoutStudentsInput,
+    type: () => RoomWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => RoomAllocationUpdateManyWithoutStudentsInput)
+  @Type(() => RoomWhereUniqueInput)
   @IsOptional()
-  @Field(() => RoomAllocationUpdateManyWithoutStudentsInput, {
+  @Field(() => RoomWhereUniqueInput, {
     nullable: true,
   })
-  roomAllocations?: RoomAllocationUpdateManyWithoutStudentsInput;
-
-  @ApiProperty({
-    required: false,
-    type: Number,
-  })
-  @IsInt()
-  @IsOptional()
-  @Field(() => Number, {
-    nullable: true,
-  })
-  roomNumber?: number | null;
+  room?: RoomWhereUniqueInput | null;
 }
 
 export { StudentUpdateInput as StudentUpdateInput };

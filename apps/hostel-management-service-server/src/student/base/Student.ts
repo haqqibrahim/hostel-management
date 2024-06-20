@@ -11,18 +11,22 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsDate,
-  IsString,
-  IsOptional,
-  IsInt,
-  ValidateNested,
-} from "class-validator";
+import { Complaint } from "../../complaint/base/Complaint";
+import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { RoomAllocation } from "../../roomAllocation/base/RoomAllocation";
+import { Room } from "../../room/base/Room";
 
 @ObjectType()
 class Student {
+  @ApiProperty({
+    required: false,
+    type: () => [Complaint],
+  })
+  @ValidateNested()
+  @Type(() => Complaint)
+  @IsOptional()
+  complaints?: Array<Complaint>;
+
   @ApiProperty({
     required: true,
   })
@@ -30,6 +34,14 @@ class Student {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  email!: string;
 
   @ApiProperty({
     required: false,
@@ -51,12 +63,15 @@ class Student {
   id!: string;
 
   @ApiProperty({
-    required: true,
-    type: Number,
+    required: false,
+    type: String,
   })
-  @IsInt()
-  @Field(() => Number)
-  level!: number;
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  level!: string | null;
 
   @ApiProperty({
     required: true,
@@ -68,23 +83,12 @@ class Student {
 
   @ApiProperty({
     required: false,
-    type: () => [RoomAllocation],
+    type: () => Room,
   })
   @ValidateNested()
-  @Type(() => RoomAllocation)
+  @Type(() => Room)
   @IsOptional()
-  roomAllocations?: Array<RoomAllocation>;
-
-  @ApiProperty({
-    required: false,
-    type: Number,
-  })
-  @IsInt()
-  @IsOptional()
-  @Field(() => Number, {
-    nullable: true,
-  })
-  roomNumber!: number | null;
+  room?: Room | null;
 
   @ApiProperty({
     required: true,

@@ -10,10 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Room as PrismaRoom,
   RoomAllocation as PrismaRoomAllocation,
+  Student as PrismaStudent,
 } from "@prisma/client";
 
 export class RoomServiceBase {
@@ -48,5 +50,16 @@ export class RoomServiceBase {
         where: { id: parentId },
       })
       .roomAllocations(args);
+  }
+
+  async findStudents(
+    parentId: string,
+    args: Prisma.StudentFindManyArgs
+  ): Promise<PrismaStudent[]> {
+    return this.prisma.room
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .Students(args);
   }
 }

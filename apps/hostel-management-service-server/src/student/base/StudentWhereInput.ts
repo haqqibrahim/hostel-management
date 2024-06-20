@@ -11,16 +11,38 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { ComplaintListRelationFilter } from "../../complaint/base/ComplaintListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
-import { IntFilter } from "../../util/IntFilter";
-import { RoomAllocationListRelationFilter } from "../../roomAllocation/base/RoomAllocationListRelationFilter";
-import { IntNullableFilter } from "../../util/IntNullableFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { RoomWhereUniqueInput } from "../../room/base/RoomWhereUniqueInput";
 
 @InputType()
 class StudentWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => ComplaintListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ComplaintListRelationFilter)
+  @IsOptional()
+  @Field(() => ComplaintListRelationFilter, {
+    nullable: true,
+  })
+  complaints?: ComplaintListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  email?: StringFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -45,14 +67,14 @@ class StudentWhereInput {
 
   @ApiProperty({
     required: false,
-    type: IntFilter,
+    type: StringNullableFilter,
   })
-  @Type(() => IntFilter)
+  @Type(() => StringNullableFilter)
   @IsOptional()
-  @Field(() => IntFilter, {
+  @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  level?: IntFilter;
+  level?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -67,26 +89,15 @@ class StudentWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => RoomAllocationListRelationFilter,
+    type: () => RoomWhereUniqueInput,
   })
   @ValidateNested()
-  @Type(() => RoomAllocationListRelationFilter)
+  @Type(() => RoomWhereUniqueInput)
   @IsOptional()
-  @Field(() => RoomAllocationListRelationFilter, {
+  @Field(() => RoomWhereUniqueInput, {
     nullable: true,
   })
-  roomAllocations?: RoomAllocationListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: IntNullableFilter,
-  })
-  @Type(() => IntNullableFilter)
-  @IsOptional()
-  @Field(() => IntNullableFilter, {
-    nullable: true,
-  })
-  roomNumber?: IntNullableFilter;
+  room?: RoomWhereUniqueInput;
 }
 
 export { StudentWhereInput as StudentWhereInput };

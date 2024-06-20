@@ -10,19 +10,19 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
-import { RoomAllocationWhereUniqueInput } from "../../roomAllocation/base/RoomAllocationWhereUniqueInput";
+import { StudentWhereUniqueInput } from "../../student/base/StudentWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
 
 @InputType()
-class RoomAllocationCreateNestedManyWithoutStudentsInput {
-  @Field(() => [RoomAllocationWhereUniqueInput], {
+class StudentCreateNestedManyWithoutRoomsInput {
+  @Field(() => [StudentWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [RoomAllocationWhereUniqueInput],
+    type: () => [StudentWhereUniqueInput],
   })
-  connect?: Array<RoomAllocationWhereUniqueInput>;
+  connect?: Array<StudentWhereUniqueInput>;
 }
 
-export { RoomAllocationCreateNestedManyWithoutStudentsInput as RoomAllocationCreateNestedManyWithoutStudentsInput };
+export { StudentCreateNestedManyWithoutRoomsInput as StudentCreateNestedManyWithoutRoomsInput };
