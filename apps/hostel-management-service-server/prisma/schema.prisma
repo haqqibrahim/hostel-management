@@ -1,0 +1,72 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  adminEmployeeId     String?
+  adminUniqueEmail    String?
+  adminUniqueName     String?
+  adminUniquePassword String?
+  createdAt           DateTime @default(now())
+  id                  String   @id @default(cuid())
+  updatedAt           DateTime @updatedAt
+}
+
+model Complaint {
+  complaint String
+  createdAt DateTime               @default(now())
+  id        String                 @id @default(cuid())
+  room      Student?               @relation(fields: [roomId], references: [id])
+  roomId    String?
+  typeField EnumComplaintTypeField
+  updatedAt DateTime               @updatedAt
+}
+
+model Room {
+  createdAt        DateTime         @default(now())
+  id               String           @id @default(cuid())
+  numberOfStudents String?
+  roomAllocations  RoomAllocation[]
+  Students         Student[]
+  updatedAt        DateTime         @updatedAt
+}
+
+model RoomAllocation {
+  adminApproval    String?
+  allocationDate   DateTime?
+  allocationStatus EnumRoomAllocationAllocationStatus?
+  createdAt        DateTime                            @default(now())
+  id               String                              @id @default(cuid())
+  room             Room?                               @relation(fields: [roomId], references: [id])
+  roomId           String?
+  studentEmail     String
+  updatedAt        DateTime                            @updatedAt
+}
+
+model Student {
+  complaints   Complaint[]
+  createdAt    DateTime    @default(now())
+  email        String
+  fullName     String?
+  id           String      @id @default(cuid())
+  level        String?
+  matricNumber String
+  room         Room?       @relation(fields: [roomId], references: [id])
+  roomId       String?
+  updatedAt    DateTime    @updatedAt
+}
+
+enum EnumComplaintTypeField {
+  Electrical
+  Plumbing
+  Furniture
+}
+
+enum EnumRoomAllocationAllocationStatus {
+  Option1
+}
