@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DB_URL")
 }
 
@@ -13,23 +13,23 @@ model Admin {
   adminUniqueName     String?
   adminUniquePassword String?
   createdAt           DateTime @default(now())
-  id                  String   @id @default(cuid())
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   updatedAt           DateTime @updatedAt
 }
 
 model Complaint {
   complaint String
   createdAt DateTime               @default(now())
-  id        String                 @id @default(cuid())
+  id        String                 @id @default(auto()) @map("_id") @db.ObjectId
   room      Student?               @relation(fields: [roomId], references: [id])
-  roomId    String?
+  roomId    String?                @db.ObjectId
   typeField EnumComplaintTypeField
   updatedAt DateTime               @updatedAt
 }
 
 model Room {
   createdAt        DateTime         @default(now())
-  id               String           @id @default(cuid())
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
   numberOfStudents String?
   roomAllocations  RoomAllocation[]
   Students         Student[]
@@ -41,9 +41,9 @@ model RoomAllocation {
   allocationDate   DateTime?
   allocationStatus EnumRoomAllocationAllocationStatus?
   createdAt        DateTime                            @default(now())
-  id               String                              @id @default(cuid())
+  id               String                              @id @default(auto()) @map("_id") @db.ObjectId
   room             Room?                               @relation(fields: [roomId], references: [id])
-  roomId           String?
+  roomId           String?                             @db.ObjectId
   studentEmail     String
   updatedAt        DateTime                            @updatedAt
 }
@@ -53,11 +53,11 @@ model Student {
   createdAt    DateTime    @default(now())
   email        String
   fullName     String?
-  id           String      @id @default(cuid())
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
   level        String?
   matricNumber String
   room         Room?       @relation(fields: [roomId], references: [id])
-  roomId       String?
+  roomId       String?     @db.ObjectId
   updatedAt    DateTime    @updatedAt
 }
 
